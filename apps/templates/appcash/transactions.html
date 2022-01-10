@@ -1,0 +1,79 @@
+{% extends "appcash/cashapp_base.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+        <div class="card-body table-responsive p-0">
+            <div class="card-header border-0">
+                
+                <div class="card-header">
+                    <h3 class="card-title">
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'transaction-add' %}" class="fa fa-plus-circle fa-2x"></a>
+                        </div>
+                    </h3>
+                    
+                    <div class="card-tools">
+                        {% if is_paginated %}
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item disabled"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li class="page-item active"><p class="page-link">{{ i }}</p></li>
+                            {% else %}
+                                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a></li>
+                            {% else %}
+                            
+                            <li class="page-item disabled"><a href="#" class="page-link">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+            {% if transactions_object %}
+            <table class="table table-striped table-valign-middle">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Account</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tansaction in transactions_object %}
+                    <tr>
+                        <td>{{ tansaction.created }}</td>
+                        <td>{{ tansaction.transactionAccount }}</td>
+                        <td>{{ tansaction.transactiontype }}</td>
+                        <td>{{ tansaction.amount }}</td>
+
+                   </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>No transactions avalable at the moment</p>
+            {% endif %}
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+    </section>
+    <!-- /.content -->
+</div>
+
+{% endblock content %}
